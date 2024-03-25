@@ -72,9 +72,11 @@
 			this.addCallback("IsMember", Player.IsMember);
 			this.addCallback("GetAurasValue", Player.GetAurasValue);
 			this.addCallback("ChangeColorName", Player.ChangeColorName);
+			this.addCallback("GetAccessLevel", Player.GetAccessLevel);
 			
 			this.addCallback("MapLoadComplete", World.MapLoadComplete);
 			this.addCallback("ReloadMap", World.ReloadMap);
+			this.addCallback("LoadMap", World.LoadMap);
 			this.addCallback("PlayersInMap", World.PlayersInMap);
 			this.addCallback("IsActionAvailable", World.IsActionAvailable);
 			this.addCallback("GetMonstersInCell", World.GetMonstersInCell);

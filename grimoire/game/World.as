@@ -320,6 +320,11 @@
 			Root.Game.world.reloadCurrentMap();
 		}
 
+		public static function LoadMap(swf: String) : void
+		{
+			Root.Game.world.loadMap(swf);
+		}
+
 		// testing
 		public static function SetMapQuestVal(): void
 		{

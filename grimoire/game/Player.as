@@ -324,7 +324,8 @@
 			var skill:Object = Root.Game.world.actions.active[parseInt(index)];
 			if (IsSkillReady(skill) == 0)
 			{
-				if (Root.Game.world.myAvatar.dataLeaf.intMP >= skill.mp)
+				//if (Root.Game.world.myAvatar.dataLeaf.intMP >= skill.mp)
+				if (true)
 				{
 					if (skill.isOK && !skill.skillLock)
 					{
@@ -539,6 +540,22 @@
                 }
             }
 			return value;
+        }
+
+		public static function GetAccessLevel(username: String) : int {
+            var avatars:* = Root.Game.world.avatars;
+            var accessLevel;
+            for (var a in avatars)
+            { 
+                var avatar = avatars[a];
+                if (username != null) {
+                    if (avatar.dataLeaf.strUsername.toLowerCase() == username.toLowerCase()) {
+                        var uid = avatar.uid;
+                        accessLevel = Root.Game.world.getAvatarByUserID(uid).objData.intAccessLevel;
+                    }
+                }
+            }
+            return accessLevel;
         }
 	}
 }

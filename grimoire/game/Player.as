@@ -534,9 +534,10 @@
 			}
 			var objAura = isSelf ? Root.Game.world.myAvatar.dataLeaf.auras : Root.Game.world.myAvatar.target.dataLeaf.auras;
             for each (var aura in objAura) {
-                if (aura.nam.toLowerCase() == auraName.toLowerCase()) 
+                if (aura.nam.toLowerCase().replace(' ', '') == auraName.toLowerCase().replace(' ', '')) 
                 {
-                    value = aura.val ? aura.val : 1;
+					var numericVal:Number = parseFloat(aura.val);
+					var value:int = (!isNaN(numericVal) && numericVal > 0) ? Math.ceil(numericVal) : 1;
                 }
             }
 			return value;

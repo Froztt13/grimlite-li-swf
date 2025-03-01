@@ -282,13 +282,13 @@
 				var children:int = Root.Game.ui.dropStack.numChildren;
 				for (var j:int = 0; j < children; j++)
 				{
-					var child:* = Root.Game.ui.dropStack.getChildAt(j);
-					var type:String = getQualifiedClassName(child);
+					var child2:* = Root.Game.ui.dropStack.getChildAt(j);
+					var type:String = getQualifiedClassName(child2);
 					if (type.indexOf("DFrame2MC") != -1)
 					{
-						if (child.cnt.strName.text.toLowerCase().indexOf(itemName) == 0)
+						if (child2.cnt.strName.text.toLowerCase().indexOf(itemName) == 0)
 						{
-							child.cnt.nbtn.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+							child2.cnt.nbtn.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
 						}
 					}
 				}

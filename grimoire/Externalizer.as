@@ -195,6 +195,7 @@
 		public function debug(message:String):void
 		{
 			this.call("debug", message);
+			trace("debug: " + message);
 		}
 
 		public static function debugS(message:String):void

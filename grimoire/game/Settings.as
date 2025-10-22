@@ -31,6 +31,7 @@
 		public static function SetLagKiller(state:String):void
 		{
 			Root.Game.world.visible = state == "False";
+			Root.Instance.SetBackgroundSWFVisibility(state != "False");
 		}
 		
 		public static function DestroyPlayers():void

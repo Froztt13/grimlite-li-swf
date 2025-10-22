@@ -7,11 +7,14 @@
 	import flash.display.Stage;
 	import flash.display.StageScaleMode;
 	import flash.display.StageAlign;
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.KeyboardEvent;
 	import flash.events.TimerEvent;
 	import flash.events.ProgressEvent;
+	import flash.events.IOErrorEvent;
 	import flash.ui.Keyboard;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
@@ -24,6 +27,7 @@
 	import flash.utils.Timer;
 	import flash.external.ExternalInterface;
 	import flash.filters.GlowFilter;
+	import flash.filesystem.File;
 	import grimoire.game.*;
 	import grimoire.tools.*;
 
@@ -45,6 +49,8 @@
 		private var stg:Object;
 		private var vars:URLVariables;
 		private var serversLoader:URLLoader = new URLLoader();
+		private var bgLoader:Loader;
+		private var bgSWF:Object;
 
 		public static var GameDomain:ApplicationDomain;
 		public static var Game:*;
@@ -52,10 +58,12 @@
 		public static const FalseString:String = "\"False\"";
 		public static var Username:String;
 		public static var Password:String;
+		public static var Instance:Root;
 		public var mcLoading:MovieClip;
 
 		public function Root()
 		{
+			Instance = this;
 			addEventListener(Event.ADDED_TO_STAGE, this.OnAddedToStage);
 		}
 
@@ -109,6 +117,7 @@
 			this.stg.removeChildAt(0);
 			Game = this.stg.addChildAt(event.currentTarget.content, 0);
 			//Game = this.stg.addChild(this.loader.content);
+			this.LoadAstolfo();
 			
 			for (var param:String in root.loaderInfo.parameters)
 			{
@@ -135,6 +144,32 @@
 			//getServers();
 			addEventListener(Event.ENTER_FRAME, this.EnterFrame);
 			trace("OnComplete Stage");
+		}
+
+		private function LoadAstolfo() : void
+		{
+			this.external.debug("Loading background JPG");
+			this.bgLoader = new Loader();
+			this.bgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, this.OnAstolfoComplete);
+			this.bgLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, this.OnAstolfoError);
+
+			this.bgLoader.load(new URLRequest("Loader/bg.jpg"));
+		}
+
+		private function OnAstolfoComplete(event:Event) : void
+		{
+			this.bgSWF = this.bgLoader.content;
+			if (Game && this.bgSWF)
+			{
+				Game.addChildAt(this.bgSWF, 0);
+				this.bgSWF.visible = false;
+				this.external.debug("Background JPG loaded and added to Game container");
+			}
+		}
+
+		private function OnAstolfoError(event:IOErrorEvent) : void
+		{
+			this.external.debug("Error loading background JPG: " + event.text);
 		}
 
 		private function getServers() 
@@ -423,9 +458,17 @@
 			return Game.mcConnDetail.stage == null ? "" : Game.mcConnDetail.txtDetail.text;
 		}
 
-		public function HideConnMC() : void 
+		public function HideConnMC() : void
 		{
 			Game.mcConnDetail.hideConn();
+		}
+
+		public function SetBackgroundSWFVisibility(visible:Boolean) : void
+		{
+			if (this.bgSWF)
+			{
+				this.bgSWF.visible = visible;
+			}
 		}
 	}
 }

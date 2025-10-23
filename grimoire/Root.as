@@ -466,12 +466,18 @@
 
 		public function SetBackgroundSWFVisibility(visible:Boolean) : void
 		{
-			if (this.bgSWF)
+			if (this.bgSWF && Game)
 			{
 				if (visible) {
-					Game.addChildAt(this.bgSWF, 0);
+					// Check if bgSWF is not already in Game container
+					if (!Game.contains(this.bgSWF)) {
+						Game.addChildAt(this.bgSWF, 0);
+					}
 				} else {
-					Game.removeChildAt(0);
+					// Only remove if bgSWF is actually at index 0
+					if (Game.numChildren > 0 && Game.getChildAt(0) == this.bgSWF) {
+						Game.removeChildAt(0);
+					}
 				}
 				// this.bgSWF.visible = visible;
 			}

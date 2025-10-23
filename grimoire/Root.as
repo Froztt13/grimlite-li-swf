@@ -9,6 +9,7 @@
 	import flash.display.StageAlign;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.KeyboardEvent;
@@ -161,8 +162,8 @@
 			this.bgSWF = this.bgLoader.content;
 			if (Game && this.bgSWF)
 			{
-				Game.addChildAt(this.bgSWF, 0);
-				this.bgSWF.visible = false;
+				// Game.addChildAt(this.bgSWF, 0);
+				// this.bgSWF.visible = false;
 				this.external.debug("Background JPG loaded and added to Game container");
 			}
 		}
@@ -467,7 +468,12 @@
 		{
 			if (this.bgSWF)
 			{
-				this.bgSWF.visible = visible;
+				if (visible) {
+					Game.addChildAt(this.bgSWF, 0);
+				} else {
+					Game.removeChildAt(0);
+				}
+				// this.bgSWF.visible = visible;
 			}
 		}
 	}
